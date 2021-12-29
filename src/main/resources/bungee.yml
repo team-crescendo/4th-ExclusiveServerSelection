@@ -1,0 +1,3 @@
+name: ExclusiveServerSelection
+version: '${version}'
+main: kr.enak.crescendo.exclusiveserverselection.ExclusiveServerSelection
