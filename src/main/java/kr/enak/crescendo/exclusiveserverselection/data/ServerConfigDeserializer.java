@@ -18,11 +18,13 @@ public class ServerConfigDeserializer extends StdDeserializer<ServerConfig> {
     }
 
     @Override
-    public ServerConfig deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+    public ServerConfig deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
 
         boolean isServerExclusive = node.get("isServerExclusive").booleanValue();
 
-        return null;
+        return new ServerConfig(
+                isServerExclusive
+        );
     }
 }
