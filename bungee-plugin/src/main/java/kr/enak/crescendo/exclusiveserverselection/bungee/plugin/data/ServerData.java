@@ -1,11 +1,10 @@
-package kr.enak.crescendo.exclusiveserverselection.data;
+package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class ServerData {
     @JsonProperty

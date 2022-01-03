@@ -1,14 +1,12 @@
-package kr.enak.crescendo.exclusiveserverselection;
+package kr.enak.crescendo.exclusiveserverselection.bungee.plugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import kr.enak.crescendo.exclusiveserverselection.commands.CommandSelection;
-import kr.enak.crescendo.exclusiveserverselection.data.ServerConfig;
-import kr.enak.crescendo.exclusiveserverselection.data.ServerData;
-import kr.enak.crescendo.exclusiveserverselection.handlers.JoinListener;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.plugin.Command;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.commands.CommandSelection;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.ServerConfig;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.ServerData;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.handlers.JoinListener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 

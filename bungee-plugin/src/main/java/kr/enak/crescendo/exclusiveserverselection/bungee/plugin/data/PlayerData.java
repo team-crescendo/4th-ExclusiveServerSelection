@@ -1,8 +1,8 @@
-package kr.enak.crescendo.exclusiveserverselection.data;
+package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import kr.enak.crescendo.exclusiveserverselection.models.ServerType;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerType;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;

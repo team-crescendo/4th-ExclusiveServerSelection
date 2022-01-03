@@ -1,4 +1,4 @@
-package kr.enak.crescendo.exclusiveserverselection.data;
+package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

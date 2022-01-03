@@ -1,9 +1,9 @@
-package kr.enak.crescendo.exclusiveserverselection.commands;
+package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.commands;
 
-import kr.enak.crescendo.exclusiveserverselection.ExclusiveServerSelection;
-import kr.enak.crescendo.exclusiveserverselection.data.PlayerData;
-import kr.enak.crescendo.exclusiveserverselection.models.ServerType;
-import kr.enak.crescendo.exclusiveserverselection.utils.MessageHelper;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.ExclusiveServerSelection;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.PlayerData;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerType;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.utils.MessageHelper;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;

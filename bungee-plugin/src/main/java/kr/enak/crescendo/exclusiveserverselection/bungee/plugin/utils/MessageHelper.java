@@ -1,4 +1,4 @@
-package kr.enak.crescendo.exclusiveserverselection.utils;
+package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.utils;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

@@ -1,9 +1,9 @@
-package kr.enak.crescendo.exclusiveserverselection.handlers;
+package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.handlers;
 
-import kr.enak.crescendo.exclusiveserverselection.ExclusiveServerSelection;
-import kr.enak.crescendo.exclusiveserverselection.data.PlayerData;
-import kr.enak.crescendo.exclusiveserverselection.data.ServerData;
-import kr.enak.crescendo.exclusiveserverselection.models.ServerType;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.ExclusiveServerSelection;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.PlayerData;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerType;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.ServerData;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.PendingConnection;
@@ -14,7 +14,6 @@ import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-import java.util.UUID;
 import java.util.logging.Logger;
 
 public class JoinListener implements Listener {

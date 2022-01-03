@@ -1,0 +1,45 @@
+apply plugin: 'kr.entree.spigradle'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    compileOnly spigot("1.17.1")
+}
+
+spigot {
+    authors 'EunhakLee'
+//    depends 'ProtocolLib', 'Vault'
+//    softDepends 'WorldEdit'
+    apiVersion '1.17'
+    load STARTUP
+    commands {
+//        give {
+//            aliases 'giv', 'i'
+//            description 'Give command.'
+//            permission 'test.foo'
+//            permissionMessage 'You do not have the permission!'
+//            usage '/<command> [item] [amount]'
+//        }
+    }
+    permissions {
+//        'test.foo' {
+//            description 'Allows foo command'
+//            defaults 'true'
+//        }
+//        'test.*' {
+//            description 'Wildcard permission'
+//            defaults 'op'
+//            children = ['test.foo': true]
+//        }
+    }
+}
