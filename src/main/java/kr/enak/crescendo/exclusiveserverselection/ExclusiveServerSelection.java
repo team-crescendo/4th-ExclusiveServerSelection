@@ -127,4 +127,12 @@ public final class ExclusiveServerSelection extends Plugin {
         }
         return true;
     }
+
+    public static ServerData getServerData() {
+        return serverData;
+    }
+
+    public static ServerConfig getServerConfig() {
+        return serverConfig;
+    }
 }

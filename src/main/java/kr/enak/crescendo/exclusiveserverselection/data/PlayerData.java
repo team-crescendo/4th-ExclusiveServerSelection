@@ -12,6 +12,10 @@ public class PlayerData {
     @JsonProperty private UUID uuid;
     @JsonProperty private ServerType serverType;
 
+    public PlayerData() {
+        this((String) null);
+    }
+
     public PlayerData(ProxiedPlayer player) {
         this(
                 player.getName(),
