@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public enum ServerType {
-    NONE, WILD, MILD;
+    LOBBY, WILD, MILD;
 
     private static final Map<ServerType, ServerInfo> serverInfoMap = new HashMap<>();
     private static final Logger logger = Logger.getLogger(ServerType.class.getName());

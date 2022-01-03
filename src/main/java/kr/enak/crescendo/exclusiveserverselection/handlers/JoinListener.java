@@ -37,7 +37,7 @@ public class JoinListener implements Listener {
         if (playerData.getUuid() == null)
             playerData.setUuid(event.getPlayer().getUniqueId());
 
-        if (playerData.getServerType() == ServerType.NONE) return;
+        if (playerData.getServerType() == ServerType.LOBBY) return;
 
         ServerInfo serverInfo = playerData.getServerType().getServerInfo();
         if (serverInfo != null) {

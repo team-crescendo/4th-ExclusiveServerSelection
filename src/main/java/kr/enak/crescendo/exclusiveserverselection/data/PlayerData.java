@@ -33,11 +33,11 @@ public class PlayerData {
     }
 
     public PlayerData(String username) {
-        this(username, null, ServerType.NONE);
+        this(username, null, ServerType.LOBBY);
     }
 
     public PlayerData(String username, UUID uuid) {
-        this(username, uuid, ServerType.NONE);
+        this(username, uuid, ServerType.LOBBY);
     }
 
     public PlayerData(String username, UUID uuid, ServerType serverType) {
