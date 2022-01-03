@@ -19,8 +19,7 @@ public class PlayerData {
     public PlayerData(ProxiedPlayer player) {
         this(
                 player.getName(),
-                player.getUniqueId(),
-                null
+                player.getUniqueId()
         );
     }
 
