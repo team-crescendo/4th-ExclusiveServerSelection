@@ -34,6 +34,9 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
         PlayerData playerData = getServerData().getPlayerDataOrCreate(event.getPlayer(), true);
+        if (playerData.getUuid() == null)
+            playerData.setUuid(event.getPlayer().getUniqueId());
+
         if (playerData.getServerType() == ServerType.NONE) return;
 
         ServerInfo serverInfo = playerData.getServerType().getServerInfo();
