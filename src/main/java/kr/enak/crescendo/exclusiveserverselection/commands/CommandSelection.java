@@ -14,7 +14,7 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class CommandSelection extends Command {
     public CommandSelection() {
-        super("selection", "bungeecord.exclusive");
+        super("selection", "bungeecord.command.selection");
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CommandSelection extends Command {
         ProxiedPlayer targetPlayer;
         PlayerData playerData;
         if (args.length >= 3 && args[1].equalsIgnoreCase("to")) {
-            if (!sender.getName().equalsIgnoreCase("CONSOLE") && sender.hasPermission("bungeecord.exclusive.admin")) {
+            if (!sender.getName().equalsIgnoreCase("CONSOLE") && sender.hasPermission("bungeecord.command.selection.admin")) {
                 sender.sendMessage("권한 없음");
                 return;
             }
@@ -65,7 +65,11 @@ public class CommandSelection extends Command {
                 MessageHelper.send(sender, "/오류/ 콘솔에서 사용할 수 없는 명령어 형태입니다.");
                 return;
             }
-            playerData = new PlayerData(player);
+            playerData = ExclusiveServerSelection.getServerData().getPlayerDataOrCreate(player, true);
+            if (playerData.getServerType() != ServerType.LOBBY) {
+                MessageHelper.send(sender, "/오류/ 한 번 서버를 선택하면 바꿀 수 없습니다. 관리자에게 문의해주세요.");
+                return;
+            }
         }
 
         assert playerData != null;
