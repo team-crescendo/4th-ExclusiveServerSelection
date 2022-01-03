@@ -23,8 +23,10 @@ public class ServerData {
     @JsonIgnore public PlayerData getPlayerDataOrCreate(ProxiedPlayer player, boolean createIfAbsent) {
         PlayerData data;
 
-        if (!playerDataMap.containsKey(player.getName()) && createIfAbsent)
-            data = playerDataMap.put(player.getName(), new PlayerData(player));
+        if (!playerDataMap.containsKey(player.getName()) && createIfAbsent) {
+            data = new PlayerData(player);
+            playerDataMap.put(player.getName(), data);
+        }
         else
             data = playerDataMap.get(player.getName());
 
@@ -34,8 +36,10 @@ public class ServerData {
     @JsonIgnore public PlayerData getPlayerDataOrCreate(String username, boolean createIfAbsent) {
         PlayerData data;
 
-        if (!playerDataMap.containsKey(username) && createIfAbsent)
-            data = playerDataMap.put(username, new PlayerData(username));
+        if (!playerDataMap.containsKey(username) && createIfAbsent) {
+            data = new PlayerData(username);
+            playerDataMap.put(username, data);
+        }
         else
             data = playerDataMap.get(username);
 
