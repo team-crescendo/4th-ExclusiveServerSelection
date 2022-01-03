@@ -3,31 +3,58 @@ package kr.enak.crescendo.exclusiveserverselection.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.enak.crescendo.exclusiveserverselection.models.ServerType;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
 
 public class PlayerData {
-    @JsonProperty
-    private final UUID uuid;
-    @JsonProperty
-    private ServerType serverType;
+    @JsonProperty private final String username;
+    @JsonProperty private UUID uuid;
+    @JsonProperty private ServerType serverType;
 
-    public PlayerData(UUID uuid) {
-        this(uuid, ServerType.NONE);
+    public PlayerData(ProxiedPlayer player) {
+        this(
+                player.getName(),
+                player.getUniqueId(),
+                null
+        );
     }
 
-    public PlayerData(UUID uuid, ServerType serverType) {
+    public PlayerData(ProxiedPlayer player, ServerType serverType) {
+        this(
+                player.getName(),
+                player.getUniqueId(),
+                serverType
+        );
+    }
+
+    public PlayerData(String username) {
+        this(username, null, ServerType.NONE);
+    }
+
+    public PlayerData(String username, UUID uuid) {
+        this(username, uuid, ServerType.NONE);
+    }
+
+    public PlayerData(String username, UUID uuid, ServerType serverType) {
+        this.username = username;
         this.uuid = uuid;
         this.serverType = serverType;
     }
 
-    @JsonIgnore
-    public UUID getUuid() {
+    @JsonIgnore public UUID getUuid() {
         return uuid;
     }
 
-    @JsonIgnore
-    public ServerType getServerType() {
+    @JsonIgnore public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    @JsonIgnore public String getUsername() {
+        return username;
+    }
+
+    @JsonIgnore public ServerType getServerType() {
         return serverType;
     }
 
