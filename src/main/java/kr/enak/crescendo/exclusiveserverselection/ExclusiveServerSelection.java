@@ -3,9 +3,12 @@ package kr.enak.crescendo.exclusiveserverselection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import kr.enak.crescendo.exclusiveserverselection.commands.CommandSelection;
 import kr.enak.crescendo.exclusiveserverselection.data.ServerConfig;
 import kr.enak.crescendo.exclusiveserverselection.data.ServerData;
 import kr.enak.crescendo.exclusiveserverselection.handlers.JoinListener;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -58,6 +61,12 @@ public final class ExclusiveServerSelection extends Plugin {
                     new JoinListener()
             ).forEach((listener) -> pluginManager.registerListener(this, listener));
         }
+
+        PluginManager pluginManager = getProxy().getPluginManager();
+        // Inject commands
+        Arrays.asList(
+                new CommandSelection()
+        ).forEach(c -> pluginManager.registerCommand(this, c));
     }
 
     @Override
