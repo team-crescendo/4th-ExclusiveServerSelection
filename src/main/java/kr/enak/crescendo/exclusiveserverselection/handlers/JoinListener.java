@@ -4,7 +4,9 @@ import kr.enak.crescendo.exclusiveserverselection.ExclusiveServerSelection;
 import kr.enak.crescendo.exclusiveserverselection.data.PlayerData;
 import kr.enak.crescendo.exclusiveserverselection.data.ServerData;
 import kr.enak.crescendo.exclusiveserverselection.models.ServerType;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.PreLoginEvent;
@@ -12,6 +14,7 @@ import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public class JoinListener implements Listener {
@@ -28,7 +31,14 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void onLogin(LoginEvent event) {
+        PendingConnection connection = event.getConnection();
+        String username = connection.getName();
+        if (username == null) {
+            logger.warning(String.format("Rejecting incoming connection %s with unknown name", connection));
 
+            event.setCancelReason(new TextComponent("Unknown connection name"));
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
