@@ -57,7 +57,9 @@ public class JoinListener implements Listener {
                     serverInfo.getName()
             ));
             event.getPlayer().setReconnectServer(serverInfo);
-            event.getPlayer().connect(serverInfo, ServerConnectEvent.Reason.PLUGIN);
+
+            if (event.getPlayer().getReconnectServer() != serverInfo)
+                event.getPlayer().connect(serverInfo, ServerConnectEvent.Reason.PLUGIN);
         }
     }
 }
