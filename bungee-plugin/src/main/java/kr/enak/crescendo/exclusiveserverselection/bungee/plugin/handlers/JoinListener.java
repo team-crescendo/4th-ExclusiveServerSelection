@@ -2,8 +2,9 @@ package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.handlers;
 
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.ExclusiveServerSelection;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.PlayerData;
-import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerType;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.ServerData;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerTypeMapper;
+import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.PendingConnection;
@@ -48,7 +49,7 @@ public class JoinListener implements Listener {
 
         if (playerData.getServerType() == ServerType.LOBBY) return;
 
-        ServerInfo serverInfo = playerData.getServerType().getServerInfo();
+        ServerInfo serverInfo = ServerTypeMapper.getServerInfo(playerData.getServerType());
         if (serverInfo != null) {
             logger.info(String.format(
                     "Sending player %s to dedicated server %s",

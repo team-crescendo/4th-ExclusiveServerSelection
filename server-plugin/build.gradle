@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     compileOnly spigot("1.17.1")
+    implementation project(':protocol')
 }
 
 spigot {
@@ -23,6 +24,10 @@ spigot {
     apiVersion '1.17'
     load STARTUP
     commands {
+        select {
+            description 'Select wild/mild server'
+            usage '/<command> [WILD/MILD]'
+        }
 //        give {
 //            aliases 'giv', 'i'
 //            description 'Give command.'

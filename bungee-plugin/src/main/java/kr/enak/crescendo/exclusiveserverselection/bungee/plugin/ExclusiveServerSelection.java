@@ -7,6 +7,8 @@ import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.commands.Command
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.ServerConfig;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.ServerData;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.handlers.JoinListener;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.handlers.NetworkPacketListener;
+import kr.enak.crescendo.exclusiveserverselection.engine.ExSSEngine;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -16,6 +18,7 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 public final class ExclusiveServerSelection extends Plugin {
+    private static ExclusiveServerSelection instance;
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static ServerConfig serverConfig;
     private static ServerData serverData;
@@ -32,6 +35,10 @@ public final class ExclusiveServerSelection extends Plugin {
 
     private final Logger logger = getLogger();
 
+    public static ExclusiveServerSelection getInstance() {
+        return instance;
+    }
+
     private static boolean ensurePath(File file) throws IOException {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
@@ -46,25 +53,35 @@ public final class ExclusiveServerSelection extends Plugin {
 
     @Override
     public void onEnable() {
+        instance = this;
+
         // Load Data
         configFile = new File(getDataFolder(), "config.json");
         dataFile = new File(getDataFolder(), "data.json");
         loadConfig();
         loadData();
 
+        PluginManager pluginManager = getProxy().getPluginManager();
+
         // Register Listener
         {
-            PluginManager pluginManager = getProxy().getPluginManager();
             Arrays.asList(
-                    new JoinListener()
+                    new JoinListener(),
+                    new NetworkPacketListener()
             ).forEach((listener) -> pluginManager.registerListener(this, listener));
         }
 
-        PluginManager pluginManager = getProxy().getPluginManager();
+        // Register channel
+        {
+            getProxy().registerChannel(ExSSEngine.pluginChannelName);
+        }
+
         // Inject commands
-        Arrays.asList(
-                new CommandSelection()
-        ).forEach(c -> pluginManager.registerCommand(this, c));
+        {
+            Arrays.asList(
+                    new CommandSelection()
+            ).forEach(c -> pluginManager.registerCommand(this, c));
+        }
     }
 
     @Override

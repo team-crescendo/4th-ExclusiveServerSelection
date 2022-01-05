@@ -2,8 +2,9 @@ package kr.enak.crescendo.exclusiveserverselection.bungee.plugin.commands;
 
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.ExclusiveServerSelection;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.PlayerData;
-import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerType;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerTypeMapper;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.utils.MessageHelper;
+import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -36,7 +37,7 @@ public class CommandSelection extends Command {
             return;
         }
 
-        ServerInfo serverInfo = serverType.getServerInfo();
+        ServerInfo serverInfo = ServerTypeMapper.getServerInfo(serverType);
         if (serverInfo == null) {
             MessageHelper.send(sender, "/오류/ 서버 유형 %s 의 서버 연결 정보가 존재하지 않습니다.", args[0]);
             return;

@@ -1,8 +1,13 @@
 package kr.enak.crescendo.exclusiveserverselection.spigot.plugin;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import kr.enak.crescendo.exclusiveserverselection.engine.ExSSEngine;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.CommandManager;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.network.NetworkManager;
+import kr.enak.plugintemplate.TemplatePlugin;
 
-public class ExSSSpigotPlugin extends JavaPlugin {
+import java.util.Arrays;
+
+public class ExSSSpigotPlugin extends TemplatePlugin {
     private static ExSSSpigotPlugin instance;
 
     public static ExSSSpigotPlugin getInstance() {
@@ -10,9 +15,29 @@ public class ExSSSpigotPlugin extends JavaPlugin {
     }
 
     @Override
+    public String getPrefix() {
+        return "[TeamCrescendo] ";
+    }
+
+    @Override
     public void onEnable() {
         instance = this;
 
+        this.DEFAULT_MANAGERS.addAll(Arrays.asList(
+                NetworkManager.class,
+                CommandManager.class
+        ));
+
         super.onEnable();
+
+        getServer().getMessenger().registerOutgoingPluginChannel(
+                this,
+                ExSSEngine.pluginChannelName
+        );
+        getServer().getMessenger().registerIncomingPluginChannel(
+                this,
+                ExSSEngine.pluginChannelName,
+                TemplatePlugin.getResourceManager(NetworkManager.class)
+        );
     }
 }

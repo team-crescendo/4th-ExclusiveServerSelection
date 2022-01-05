@@ -6,6 +6,8 @@ repositories {
     }
 }
 
+group = 'kr.enak.crescendo.exclusiveserverselection.bungee.plugin'
+
 dependencies {
     implementation project(':protocol')
     compileOnly 'net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT'
