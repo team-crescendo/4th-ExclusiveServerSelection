@@ -8,17 +8,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfig {
-    private final Pair<BlockVector3, BlockVector3> wildPortalCoordinates;
-    private final Pair<BlockVector3, BlockVector3> mildPortalCoordinates;
+    private @NotNull Pair<BlockVector3, BlockVector3> wildPortalCoordinates = new Pair<>(null, null);
+    private @NotNull Pair<BlockVector3, BlockVector3> mildPortalCoordinates = new Pair<>(null, null);
 
     public ServerConfig() {
         this(new HashMap<>());
     }
 
     public ServerConfig(Map<String, Object> map) {
-        wildPortalCoordinates = new Pair<>(null, null);
-        mildPortalCoordinates = new Pair<>(null, null);
-
         deserialize(map);
     }
 
@@ -33,15 +30,20 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     }
 
     private static @NotNull BlockVector3 deserializeBlockVector3(@NotNull Map<String, Object> map) {
-        return BlockVector3.at(
+        BlockVector3 vec = BlockVector3.at(
                 (Integer) map.get("x"),
                 (Integer) map.get("y"),
                 (Integer) map.get("z")
         );
+        System.out.printf("Deserialized vector x=%d y=%d z=%d%n", vec.getX(), vec.getY(), vec.getZ());
+        return vec;
     }
 
     @Override
     public void deserialize(@NotNull Map<String, Object> map) {
+        this.wildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
+        this.mildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
+
         {
             @NotNull List<Map<String, Object>> wildPortalXyz = ((List<Map<String, Object>>) map.getOrDefault("wildPortalXYZ", new ArrayList<>(Arrays.asList(
                     Map.of("x", 0, "y", 0, "z", 0),

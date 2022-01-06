@@ -33,7 +33,7 @@ public class CommandPortal extends CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission(PermissionReference.COMMAND_SELECT_PORTAL)) {
+        if (!sender.hasPermission(PermissionReference.COMMAND_SELECT_PORTAL) && !sender.isOp()) {
             sender.sendMessage("권한 부족");
             return true;
         } else if (!(args[0].equalsIgnoreCase("wild")) && !(args[0].equalsIgnoreCase("mild"))) {
