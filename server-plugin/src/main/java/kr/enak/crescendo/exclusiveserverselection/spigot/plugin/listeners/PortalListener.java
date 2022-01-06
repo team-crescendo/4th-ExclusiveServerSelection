@@ -9,6 +9,7 @@ import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.Se
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.network.NetworkManager;
 import kr.enak.plugintemplate.TemplatePlugin;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +31,7 @@ public class PortalListener implements Listener {
         this.networkManager = Objects.requireNonNull(TemplatePlugin.getResourceManager(NetworkManager.class));
     }
 
+    @EventHandler
     public void checkOnPlayerMove(PlayerMoveEvent event) {
         ServerConfig config = configManager.getServerConfig();
         CuboidRegion wildPortal = config.getWildPortalRegion();
