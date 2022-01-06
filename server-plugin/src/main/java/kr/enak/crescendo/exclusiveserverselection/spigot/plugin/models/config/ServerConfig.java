@@ -5,10 +5,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfig {
     private final Pair<BlockVector3, BlockVector3> wildPortalCoordinates;
@@ -45,10 +42,24 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
 
     @Override
     public void deserialize(@NotNull Map<String, Object> map) {
-        wildPortalCoordinates.setKey(deserializeBlockVector3(((List<Map<String, Object>>) map.get("wildPortalXYZ")).get(0)));
-        wildPortalCoordinates.setKey(deserializeBlockVector3(((List<Map<String, Object>>) map.get("wildPortalXYZ")).get(1)));
-        mildPortalCoordinates.setKey(deserializeBlockVector3(((List<Map<String, Object>>) map.get("mildPortalXYZ")).get(0)));
-        mildPortalCoordinates.setKey(deserializeBlockVector3(((List<Map<String, Object>>) map.get("mildPortalXYZ")).get(1)));
+        {
+            @NotNull List<Map<String, Object>> wildPortalXyz = ((List<Map<String, Object>>) map.getOrDefault("wildPortalXYZ", new ArrayList<>(Arrays.asList(
+                    Map.of("x", 0, "y", 0, "z", 0),
+                    Map.of("x", 0, "y", 0, "z", 0)
+            ))));
+
+            wildPortalCoordinates.setKey(deserializeBlockVector3(wildPortalXyz.get(0)));
+            wildPortalCoordinates.setKey(deserializeBlockVector3(wildPortalXyz.get(1)));
+        }
+        {
+            @NotNull List<Map<String, Object>> mildPortalXyz = ((List<Map<String, Object>>) map.getOrDefault("wildPortalXYZ", new ArrayList<>(Arrays.asList(
+                    Map.of("x", 0, "y", 0, "z", 0),
+                    Map.of("x", 0, "y", 0, "z", 0)
+            ))));
+
+            mildPortalCoordinates.setKey(deserializeBlockVector3(mildPortalXyz.get(0)));
+            mildPortalCoordinates.setKey(deserializeBlockVector3(mildPortalXyz.get(1)));
+        }
     }
 
     @Override
