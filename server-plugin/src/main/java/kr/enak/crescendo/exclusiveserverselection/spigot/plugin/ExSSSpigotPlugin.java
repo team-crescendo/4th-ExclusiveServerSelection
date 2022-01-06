@@ -2,6 +2,7 @@ package kr.enak.crescendo.exclusiveserverselection.spigot.plugin;
 
 import kr.enak.crescendo.exclusiveserverselection.engine.ExSSEngine;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.CommandManager;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners.PortalListener;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.ServerConfigManager;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.network.NetworkManager;
 import kr.enak.plugintemplate.TemplatePlugin;
@@ -28,6 +29,9 @@ public class ExSSSpigotPlugin extends TemplatePlugin {
                 NetworkManager.class,
                 CommandManager.class,
                 ServerConfigManager.class
+        ));
+        this.DEFAULT_LISTENERS.addAll(Arrays.asList(
+                PortalListener.class
         ));
 
         super.onEnable();

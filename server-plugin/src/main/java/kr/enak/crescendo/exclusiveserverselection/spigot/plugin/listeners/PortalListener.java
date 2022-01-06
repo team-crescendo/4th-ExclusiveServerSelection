@@ -1,0 +1,59 @@
+package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners;
+
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import kr.enak.crescendo.exclusiveserverselection.engine.message.request.SpigotRequestSelectServer;
+import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.ServerConfig;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.ServerConfigManager;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.network.NetworkManager;
+import kr.enak.plugintemplate.TemplatePlugin;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+import java.util.logging.Logger;
+
+public class PortalListener implements Listener {
+    private final @NotNull ServerConfigManager configManager;
+    private final @NotNull NetworkManager networkManager;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
+    public PortalListener(TemplatePlugin plugin) {
+        this();
+    }
+
+    public PortalListener() {
+        this.configManager = Objects.requireNonNull(TemplatePlugin.getResourceManager(ServerConfigManager.class));
+        this.networkManager = Objects.requireNonNull(TemplatePlugin.getResourceManager(NetworkManager.class));
+    }
+
+    public void checkOnPlayerMove(PlayerMoveEvent event) {
+        ServerConfig config = configManager.getServerConfig();
+        CuboidRegion wildPortal = config.getWildPortalRegion();
+        CuboidRegion mildPortal = config.getMildPortalRegion();
+
+        if (wildPortal.contains(BlockVector3.at(
+                event.getPlayer().getLocation().getX(),
+                event.getPlayer().getLocation().getY(),
+                event.getPlayer().getLocation().getZ()
+        ))) {
+            sendPlayerToServer(event.getPlayer(), ServerType.WILD);
+        } else if (mildPortal.contains(BlockVector3.at(
+                event.getPlayer().getLocation().getX(),
+                event.getPlayer().getLocation().getY(),
+                event.getPlayer().getLocation().getZ()
+        ))) {
+            sendPlayerToServer(event.getPlayer(), ServerType.MILD);
+        }
+    }
+
+    private void sendPlayerToServer(Player player, ServerType serverType) {
+        logger.info(String.format("Sending player %s to server %s", player.getName(), serverType.name()));
+        this.networkManager.sendMessage(player, new SpigotRequestSelectServer(
+                player.getName(), serverType
+        ));
+    }
+}
