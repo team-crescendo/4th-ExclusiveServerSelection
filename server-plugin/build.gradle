@@ -10,22 +10,36 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven {
+        name = "EngineHub"
+        url = 'https://maven.enginehub.org/repo/'
+    }
+    maven {
+        name = "S01 Sonatype Snapshots"
+        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    }
 }
 
 dependencies {
-    compileOnly spigot("1.17.1")
     implementation project(':protocol')
+
+    compileOnly spigot("1.17.1")
+    compileOnly("com.sk89q.worldedit:worldedit-core:7.2.0")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0")
+    implementation "net.kyori:adventure-api:4.9.3"
+//    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core:2.0.0-SNAPSHOT")
 }
 
 spigot {
     authors 'EunhakLee'
-//    depends 'ProtocolLib', 'Vault'
+    depends 'WorldEdit'
 //    softDepends 'WorldEdit'
     apiVersion '1.17'
     load STARTUP
     commands {
         select {
             description 'Select wild/mild server'
+            permission 'crescendo.exss.command'
             usage '/<command> [WILD/MILD]'
         }
 //        give {
@@ -37,6 +51,25 @@ spigot {
 //        }
     }
     permissions {
+        'crescendo.exss.command' {
+            description 'Allow to command'
+            defaults 'true'
+        }
+
+        'crescendo.exss.command.portal' {
+            description 'adjust portal'
+            defaults 'false'
+        }
+
+        'crescendo.exss.command.server' {
+            description 'select server'
+            defaults 'true'
+        }
+
+        'crescendo.exss.command.server.override' {
+            description 'select server with override'
+            defaults 'false'
+        }
 //        'test.foo' {
 //            description 'Allows foo command'
 //            defaults 'true'

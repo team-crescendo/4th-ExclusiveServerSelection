@@ -1,4 +1,4 @@
-package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.selection;
+package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.server;
 
 import kr.enak.crescendo.exclusiveserverselection.engine.message.request.SpigotRequestSelectServer;
 import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;

@@ -1,8 +1,8 @@
 package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands;
 
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.ExSSSpigotPlugin;
-import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.selection.CommandMild;
-import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.selection.CommandWild;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.portal.CommandPortal;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.server.CommandServer;
 import kr.enak.plugintemplate.TemplatePlugin;
 
 public class CommandManager extends kr.enak.plugintemplate.commands.CommandManager<CommandSelection, ExSSSpigotPlugin> {
@@ -20,7 +20,7 @@ public class CommandManager extends kr.enak.plugintemplate.commands.CommandManag
 
     @Override
     public void registerSubCommands(CommandSelection command) {
-        command.registerCommand(new CommandMild());
-        command.registerCommand(new CommandWild());
+        command.registerCommand(new CommandServer());
+        command.registerCommand(new CommandPortal());
     }
 }
