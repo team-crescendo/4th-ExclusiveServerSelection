@@ -11,12 +11,8 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     private @NotNull Pair<BlockVector3, BlockVector3> wildPortalCoordinates = new Pair<>(null, null);
     private @NotNull Pair<BlockVector3, BlockVector3> mildPortalCoordinates = new Pair<>(null, null);
 
-    public ServerConfig() {
-        this(new HashMap<>());
-    }
-
     public ServerConfig(Map<String, Object> map) {
-        deserialize(map);
+        this.deserialize(map);
     }
 
     private static @NotNull Map<String, Object> serializeBlockVector3(@NotNull BlockVector3 vec) {
@@ -51,7 +47,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
             ))));
 
             wildPortalCoordinates.setKey(deserializeBlockVector3(wildPortalXyz.get(0)));
-            wildPortalCoordinates.setKey(deserializeBlockVector3(wildPortalXyz.get(1)));
+            wildPortalCoordinates.setValue(deserializeBlockVector3(wildPortalXyz.get(1)));
         }
         {
             @NotNull List<Map<String, Object>> mildPortalXyz = ((List<Map<String, Object>>) map.getOrDefault("wildPortalXYZ", new ArrayList<>(Arrays.asList(
@@ -60,7 +56,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
             ))));
 
             mildPortalCoordinates.setKey(deserializeBlockVector3(mildPortalXyz.get(0)));
-            mildPortalCoordinates.setKey(deserializeBlockVector3(mildPortalXyz.get(1)));
+            mildPortalCoordinates.setValue(deserializeBlockVector3(mildPortalXyz.get(1)));
         }
     }
 

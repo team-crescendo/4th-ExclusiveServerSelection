@@ -11,7 +11,6 @@ public abstract class ServerConfig implements StorableData {
     }
 
     public ServerConfig(Map<String, Object> map) {
-        this.deserialize(map);
     }
 
     public abstract void deserialize(Map<String, Object> map);
