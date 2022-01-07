@@ -1,11 +1,14 @@
 package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners;
 
 import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.ExSSSpigotPlugin;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.helper.MessageHelper;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners.game.ChatListener;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.ServerConfigManager;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.data.PlayerData;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.data.ServerDataManager;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.services.discord.AuthCodeManager;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.services.discord.DiscordManager;
 import kr.enak.plugintemplate.TemplatePlugin;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -18,11 +21,24 @@ public class PlayerJoinListener implements Listener {
     private final ServerDataManager dataManager;
     private final ServerConfigManager configManager;
     private final AuthCodeManager authCodeManager;
+    private final DiscordManager discordManager;
 
     public PlayerJoinListener() {
         this.dataManager = TemplatePlugin.getResourceManager(ServerDataManager.class);
         this.configManager = TemplatePlugin.getResourceManager(ServerConfigManager.class);
         this.authCodeManager = TemplatePlugin.getResourceManager(AuthCodeManager.class);
+        this.discordManager = TemplatePlugin.getResourceManager(DiscordManager.class);
+    }
+
+    @EventHandler
+    public void checkIsCrewWhenJoin(PlayerJoinEvent event) {
+        if (!this.discordManager.isPlayerCrew(event.getPlayer())) return;
+
+        ExSSSpigotPlugin.getInstance().getLogger().info(String.format(
+                "Adding Player name=%s id=%s as CREW",
+                event.getPlayer().getName(), event.getPlayer().getUniqueId()
+        ));
+        ChatListener.getInstance().setPlayerCrew(event.getPlayer().getUniqueId());
     }
 
     @EventHandler

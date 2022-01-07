@@ -13,11 +13,13 @@ import kr.enak.plugintemplate.models.DefaultResourceManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.bukkit.entity.Player;
 
 import javax.security.auth.login.LoginException;
 import java.util.UUID;
@@ -107,6 +109,15 @@ public class DiscordManager extends DefaultResourceManager {
         else if (serverType == ServerType.MILD)
             this.guild.addRoleToMember(discordId, mildRole).queue();
         else return;
+    }
+
+    public boolean isPlayerCrew(Player player) {
+        PlayerData playerData = this.dataManager.getServerData().getPlayerDataMap().get(player.getUniqueId());
+        if (playerData == null) return false;
+
+        Member member = this.guild.getMemberById(playerData.getDiscordId());
+        if (member == null) return false;
+        return member.getRoles().contains(adminRole);
     }
 
     public void setGuild(Guild guild) {
