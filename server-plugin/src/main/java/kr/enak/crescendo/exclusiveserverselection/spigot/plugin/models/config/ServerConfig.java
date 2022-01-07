@@ -12,7 +12,9 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     private @NotNull Pair<BlockVector3, BlockVector3> wildPortalCoordinates = new Pair<>(null, null);
     private @NotNull Pair<BlockVector3, BlockVector3> mildPortalCoordinates = new Pair<>(null, null);
     private @NotNull DiscordConfig discordConfig = new DiscordConfig();
-    private @NotNull ServerType serverType;
+    private @NotNull ServerType serverType = ServerType.LOBBY;
+    private @NotNull boolean isPvpAllowed = true;
+    private @NotNull boolean isExplosionAllowed = true;
 
     public ServerConfig(Map<String, Object> map) {
         this.deserialize(map);
@@ -42,6 +44,8 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     public void deserialize(@NotNull Map<String, Object> map) {
         this.discordConfig = (DiscordConfig) map.getOrDefault("discordConfig", new DiscordConfig());
         this.serverType = ServerType.valueOf((String) map.getOrDefault("serverType", ServerType.LOBBY.name()));
+        this.isPvpAllowed = (Boolean) map.getOrDefault("isPvpAllowed", true);
+        this.isExplosionAllowed = (Boolean) map.getOrDefault("isExplosionAllowed", true);
 
         this.wildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
         this.mildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
@@ -70,8 +74,10 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
 
-        map.put("discordConfig", this.discordConfig);
         map.put("serverType", this.serverType.name());
+        map.put("isPvpAllowed", this.isPvpAllowed);
+        map.put("isExplosionAllowed", this.isExplosionAllowed);
+        map.put("discordConfig", this.discordConfig);
         map.put("wildPortalXYZ", Arrays.asList(
                 serializeBlockVector3(wildPortalCoordinates.getKey()),
                 serializeBlockVector3(wildPortalCoordinates.getValue())
@@ -106,5 +112,21 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
 
     public CuboidRegion getMildPortalRegion() {
         return new CuboidRegion(mildPortalCoordinates.getKey(), mildPortalCoordinates.getValue());
+    }
+
+    public boolean isPvpAllowed() {
+        return isPvpAllowed;
+    }
+
+    public void setPvpAllowed(boolean pvpAllowed) {
+        isPvpAllowed = pvpAllowed;
+    }
+
+    public boolean isExplosionAllowed() {
+        return isExplosionAllowed;
+    }
+
+    public void setProtectExplosion(boolean protectExplosion) {
+        isExplosionAllowed = protectExplosion;
     }
 }

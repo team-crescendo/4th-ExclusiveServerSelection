@@ -47,6 +47,13 @@ spigot {
             permission 'crescendo.exss.command'
             usage '/<command> [WILD/MILD]'
         }
+
+        setting {
+            description 'Server setting'
+            permission 'crescendo.exss.setting'
+            usage '/<command>'
+        }
+
 //        give {
 //            aliases 'giv', 'i'
 //            description 'Give command.'
