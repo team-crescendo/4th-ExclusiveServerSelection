@@ -10,6 +10,7 @@ import java.util.*;
 public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfig {
     private @NotNull Pair<BlockVector3, BlockVector3> wildPortalCoordinates = new Pair<>(null, null);
     private @NotNull Pair<BlockVector3, BlockVector3> mildPortalCoordinates = new Pair<>(null, null);
+    private @NotNull DiscordConfig discordConfig = new DiscordConfig();
 
     public ServerConfig(Map<String, Object> map) {
         this.deserialize(map);
@@ -37,6 +38,8 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
 
     @Override
     public void deserialize(@NotNull Map<String, Object> map) {
+        this.discordConfig = (DiscordConfig) map.getOrDefault("discordConfig", new DiscordConfig());
+
         this.wildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
         this.mildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
 
@@ -50,7 +53,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
             wildPortalCoordinates.setValue(deserializeBlockVector3(wildPortalXyz.get(1)));
         }
         {
-            @NotNull List<Map<String, Object>> mildPortalXyz = ((List<Map<String, Object>>) map.getOrDefault("wildPortalXYZ", new ArrayList<>(Arrays.asList(
+            @NotNull List<Map<String, Object>> mildPortalXyz = ((List<Map<String, Object>>) map.getOrDefault("mildPortalXYZ", new ArrayList<>(Arrays.asList(
                     Map.of("x", 0, "y", 0, "z", 0),
                     Map.of("x", 0, "y", 0, "z", 0)
             ))));
@@ -64,6 +67,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
 
+        map.put("discordConfig", this.discordConfig);
         map.put("wildPortalXYZ", Arrays.asList(
                 serializeBlockVector3(wildPortalCoordinates.getKey()),
                 serializeBlockVector3(wildPortalCoordinates.getValue())
@@ -74,6 +78,10 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
         ));
 
         return map;
+    }
+
+    public DiscordConfig getDiscordConfig() {
+        return discordConfig;
     }
 
     public Pair<BlockVector3, BlockVector3> getWildPortalCoordinates() {

@@ -18,6 +18,9 @@ repositories {
         name = "S01 Sonatype Snapshots"
         url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
+    maven {
+        url = 'https://m2.dv8tion.net/releases'
+    }
 }
 
 dependencies {
@@ -27,12 +30,14 @@ dependencies {
     compileOnly("com.sk89q.worldedit:worldedit-core:7.2.0")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0")
     implementation "net.kyori:adventure-api:4.9.3"
+    implementation("net.dv8tion:JDA:4.3.0_324")
 //    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core:2.0.0-SNAPSHOT")
 }
 
 spigot {
     authors 'EunhakLee'
     depends 'WorldEdit'
+//    libraries('net.kyori:adventure-api:4.9.3')
 //    softDepends 'WorldEdit'
     apiVersion '1.17'
     load STARTUP
