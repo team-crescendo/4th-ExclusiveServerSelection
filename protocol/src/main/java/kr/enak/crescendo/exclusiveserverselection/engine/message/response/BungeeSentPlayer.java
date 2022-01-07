@@ -5,7 +5,6 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.EnumExSSMessage;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.abc.IMessage;
-import kr.enak.crescendo.exclusiveserverselection.engine.message.request.SpigotRequestSelectServer;
 import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
 
 public class BungeeSentPlayer implements IMessage {
@@ -37,7 +36,7 @@ public class BungeeSentPlayer implements IMessage {
 
     @Override
     public IMessage deserialize(ByteArrayDataInput input) {
-        return new SpigotRequestSelectServer(
+        return new BungeeSentPlayer(
                 input.readUTF(),
                 ServerType.valueOf(input.readUTF())
         );
