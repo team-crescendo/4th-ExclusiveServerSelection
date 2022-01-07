@@ -4,10 +4,12 @@ import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.ExclusiveServerS
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.data.PlayerData;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.models.ServerTypeMapper;
 import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.utils.MessageHelper;
+import kr.enak.crescendo.exclusiveserverselection.bungee.plugin.utils.PacketSender;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.EnumExSSMessage;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.abc.IMessage;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.abc.IMessageListener;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.request.SpigotRequestSelectServer;
+import kr.enak.crescendo.exclusiveserverselection.engine.message.response.BungeeSentPlayer;
 import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -34,6 +36,10 @@ public class PacketSelectServerListener implements IMessageListener {
             playerData.setServerType(serverType);
             player.setReconnectServer(serverInfo);
             player.connect(serverInfo);
+
+            PacketSender.sendPacket(ServerTypeMapper.getServerInfo(ServerType.LOBBY), new BungeeSentPlayer(
+                    player.getName(), serverType
+            ));
         } else {
             MessageHelper.send(player, "/경고/ 서버를 이미 선택하여 변경할 수 없습니다.");
         }

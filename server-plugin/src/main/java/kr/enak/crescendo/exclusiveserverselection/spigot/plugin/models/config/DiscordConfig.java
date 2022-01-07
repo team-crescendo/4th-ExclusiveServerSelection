@@ -9,6 +9,7 @@ import java.util.Map;
 public class DiscordConfig implements StorableData {
     private @NotNull String token;
     private @NotNull Long verificationChannelId;
+    private @NotNull Long guildId;
     private @NotNull Long adminRoleId;
     private @NotNull Long mildRoleId;
     private @NotNull Long wildRoleId;
@@ -20,6 +21,7 @@ public class DiscordConfig implements StorableData {
 
     public DiscordConfig(Map<String, Object> map) {
         this.token = (String) map.getOrDefault("token", "");
+        this.guildId = (Long) map.getOrDefault("guildId", 348393122503458826L);
         this.verificationChannelId = (Long) map.getOrDefault("verificationChannelId", 928958570245025832L);
         this.adminRoleId = (Long) map.getOrDefault("adminRoleId", 405986396310994945L);
         this.mildRoleId = (Long) map.getOrDefault("mildRoleId", 928967362449915914L);
@@ -33,6 +35,7 @@ public class DiscordConfig implements StorableData {
         Map<String, Object> map = new HashMap<>();
 
         map.put("token", this.token);
+        map.put("guildId", this.guildId);
         map.put("verificationChannelId", this.verificationChannelId);
         map.put("adminRoleId", this.adminRoleId);
         map.put("mildRoleId", this.mildRoleId);
@@ -44,6 +47,10 @@ public class DiscordConfig implements StorableData {
 
     public @NotNull String getToken() {
         return token;
+    }
+
+    public Long getGuildId() {
+        return guildId;
     }
 
     public @NotNull Long getVerificationChannelId() {

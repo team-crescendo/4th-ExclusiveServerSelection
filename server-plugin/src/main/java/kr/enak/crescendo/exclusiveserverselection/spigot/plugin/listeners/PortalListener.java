@@ -37,6 +37,8 @@ public class PortalListener implements Listener {
 
     @EventHandler
     public void checkOnPlayerMove(PlayerMoveEvent event) {
+        if (configManager.getServerConfig().getServerType() != ServerType.LOBBY) return;
+
         if (this.pendingPlayers.containsKey(event.getPlayer().getUniqueId())
                 && (new Date().getTime() - this.pendingPlayers.get(event.getPlayer().getUniqueId()).getTime()) <= 5000) {
             event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("서버의 응답을 기다리는 중입니다."));

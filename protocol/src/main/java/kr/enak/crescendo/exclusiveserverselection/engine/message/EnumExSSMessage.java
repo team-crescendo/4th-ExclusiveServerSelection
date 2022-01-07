@@ -2,11 +2,13 @@ package kr.enak.crescendo.exclusiveserverselection.engine.message;
 
 import kr.enak.crescendo.exclusiveserverselection.engine.message.abc.IMessage;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.request.SpigotRequestSelectServer;
+import kr.enak.crescendo.exclusiveserverselection.engine.message.response.BungeeSentPlayer;
 
 import java.util.HashMap;
 
 public enum EnumExSSMessage {
-    SPIGOT_REQUEST_SELECT_SERVER(0x01, SpigotRequestSelectServer.class);
+    SPIGOT_REQUEST_SELECT_SERVER(0x01, SpigotRequestSelectServer.class),
+    BUNGEE_SENT_PLAYER(0x02, BungeeSentPlayer.class);
 
     private static final HashMap<Byte, EnumExSSMessage> idMap = new HashMap<>();
 

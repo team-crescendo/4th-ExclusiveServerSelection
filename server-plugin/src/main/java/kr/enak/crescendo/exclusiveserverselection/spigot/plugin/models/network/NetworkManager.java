@@ -7,6 +7,7 @@ import kr.enak.crescendo.exclusiveserverselection.engine.message.EnumExSSMessage
 import kr.enak.crescendo.exclusiveserverselection.engine.message.abc.IMessage;
 import kr.enak.crescendo.exclusiveserverselection.engine.message.abc.IMessageListener;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.ExSSSpigotPlugin;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners.network.PlayerSentListener;
 import kr.enak.plugintemplate.TemplatePlugin;
 import kr.enak.plugintemplate.models.DefaultResourceManager;
 import org.bukkit.entity.Player;
@@ -33,6 +34,10 @@ public class NetworkManager extends DefaultResourceManager implements PluginMess
     public static IMessage receiveMessage(byte[] data) {
         byte id = data[0];
         EnumExSSMessage enumMessage = EnumExSSMessage.getById(id);
+        ExSSSpigotPlugin.getInstance().getLogger().info(String.format(
+                "Decided enumMessage=%s which class=%s",
+                enumMessage.name(), enumMessage.getMessageClazz().getSimpleName()
+        ));
 
         ByteArrayDataInput input = ByteStreams.newDataInput(Arrays.copyOfRange(data, 1, data.length));
         Class<?> clazz = enumMessage.getMessageClazz();
@@ -46,6 +51,22 @@ public class NetworkManager extends DefaultResourceManager implements PluginMess
         return null;
     }
 
+    @Override
+    public void onInit() {
+        super.onInit();
+
+        registerListener(new PlayerSentListener());
+    }
+
+    @Override
+    public void onRun() {
+        super.onRun();
+
+        this.getPlugin().getLogger().info("Registering network channel as name " + ExSSEngine.pluginChannelName);
+        this.getPlugin().getServer().getMessenger().registerIncomingPluginChannel(this.getPlugin(), ExSSEngine.pluginChannelName, this);
+        this.getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(this.getPlugin(), ExSSEngine.pluginChannelName);
+    }
+
     public void registerListener(IMessageListener listener) {
         listeners.add(listener);
     }
@@ -57,9 +78,13 @@ public class NetworkManager extends DefaultResourceManager implements PluginMess
         byte id = data[0];
         IMessage message = receiveMessage(data);
 
+        ExSSSpigotPlugin.getInstance().getLogger().info(String.format(
+                "Processing packet id=%s class=%s on %d listeners%n",
+                id, message.getClass().getName(), listeners.size()));
         for (IMessageListener listener : listeners) {
             try {
-                listener.onPacketReceived(player, message);
+                if (listener.getPacketId() == id)
+                    listener.onPacketReceived(player, message);
             } catch (Exception e) {
                 e.printStackTrace();
             }

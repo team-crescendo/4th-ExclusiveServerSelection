@@ -1,6 +1,5 @@
 package kr.enak.crescendo.exclusiveserverselection.spigot.plugin;
 
-import kr.enak.crescendo.exclusiveserverselection.engine.ExSSEngine;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.commands.CommandManager;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners.PlayerJoinListener;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners.PortalListener;
@@ -43,15 +42,5 @@ public class ExSSSpigotPlugin extends TemplatePlugin {
         ));
 
         super.onEnable();
-
-        getServer().getMessenger().registerOutgoingPluginChannel(
-                this,
-                ExSSEngine.pluginChannelName
-        );
-        getServer().getMessenger().registerIncomingPluginChannel(
-                this,
-                ExSSEngine.pluginChannelName,
-                TemplatePlugin.getResourceManager(NetworkManager.class)
-        );
     }
 }

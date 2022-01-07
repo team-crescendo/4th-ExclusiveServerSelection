@@ -1,6 +1,8 @@
 package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners;
 
+import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.helper.MessageHelper;
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.ServerConfigManager;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.data.PlayerData;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.data.ServerDataManager;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.services.discord.AuthCodeManager;
@@ -14,15 +16,19 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class PlayerJoinListener implements Listener {
     private final ServerDataManager dataManager;
+    private final ServerConfigManager configManager;
     private final AuthCodeManager authCodeManager;
 
     public PlayerJoinListener() {
         this.dataManager = TemplatePlugin.getResourceManager(ServerDataManager.class);
+        this.configManager = TemplatePlugin.getResourceManager(ServerConfigManager.class);
         this.authCodeManager = TemplatePlugin.getResourceManager(AuthCodeManager.class);
     }
 
     @EventHandler
     public void teleportWhenJoin(PlayerJoinEvent event) {
+        if (this.configManager.getServerConfig().getServerType() != ServerType.LOBBY) return;
+
         event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation());
 
         PlayerData playerData = this.dataManager.getServerData().getPlayerDataMap().get(event.getPlayer().getUniqueId());
@@ -35,6 +41,8 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
+        if (this.configManager.getServerConfig().getServerType() != ServerType.LOBBY) return;
+
         PlayerData playerData = this.dataManager.getServerData().getPlayerDataMap().get(event.getPlayer().getUniqueId());
         if (playerData != null && playerData.getDiscordId() > 0L) return;  // Auth-Completed Player
 

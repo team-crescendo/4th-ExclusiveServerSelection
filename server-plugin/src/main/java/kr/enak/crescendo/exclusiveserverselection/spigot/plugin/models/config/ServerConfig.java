@@ -2,6 +2,7 @@ package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import kr.enak.crescendo.exclusiveserverselection.engine.models.ServerType;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +12,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     private @NotNull Pair<BlockVector3, BlockVector3> wildPortalCoordinates = new Pair<>(null, null);
     private @NotNull Pair<BlockVector3, BlockVector3> mildPortalCoordinates = new Pair<>(null, null);
     private @NotNull DiscordConfig discordConfig = new DiscordConfig();
+    private @NotNull ServerType serverType;
 
     public ServerConfig(Map<String, Object> map) {
         this.deserialize(map);
@@ -39,6 +41,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     @Override
     public void deserialize(@NotNull Map<String, Object> map) {
         this.discordConfig = (DiscordConfig) map.getOrDefault("discordConfig", new DiscordConfig());
+        this.serverType = ServerType.valueOf((String) map.getOrDefault("serverType", ServerType.LOBBY.name()));
 
         this.wildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
         this.mildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
@@ -68,6 +71,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
         Map<String, Object> map = new HashMap<>();
 
         map.put("discordConfig", this.discordConfig);
+        map.put("serverType", this.serverType.name());
         map.put("wildPortalXYZ", Arrays.asList(
                 serializeBlockVector3(wildPortalCoordinates.getKey()),
                 serializeBlockVector3(wildPortalCoordinates.getValue())
@@ -82,6 +86,10 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
 
     public DiscordConfig getDiscordConfig() {
         return discordConfig;
+    }
+
+    public ServerType getServerType() {
+        return serverType;
     }
 
     public Pair<BlockVector3, BlockVector3> getWildPortalCoordinates() {
