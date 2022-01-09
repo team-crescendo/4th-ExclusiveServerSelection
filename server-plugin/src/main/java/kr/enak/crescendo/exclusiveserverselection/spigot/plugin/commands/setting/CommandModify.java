@@ -56,9 +56,28 @@ public class CommandModify extends CommandExecutor {
                 ));
                 break;
             }
+            case "redstone": {
+                boolean value;
+                if (args[1].equalsIgnoreCase("t") || args[1].equalsIgnoreCase("true"))
+                    value = true;
+                else if (args[1].equalsIgnoreCase("f") || args[1].equalsIgnoreCase("false"))
+                    value = false;
+                else {
+                    MessageHelper.send(sender, String.format("잘못된 값: %s (예상: true/false)", args[1]));
+                    return true;
+                }
+
+                boolean original = this.configManager.getServerConfig().isRedstoneAllowed();
+                this.configManager.getServerConfig().setRedstoneAllowed(value);
+                MessageHelper.send(sender, String.format(
+                        "redstone 허용 여부를 %s (으)로 설정했습니다. (원래 %s 였음)",
+                        value, original
+                ));
+                break;
+            }
             default: {
                 MessageHelper.send(sender, String.format("사용법: /%s <entry> <value>", label));
-                MessageHelper.send(sender, String.format(" > Entries: pvp, explosion", label));
+                MessageHelper.send(sender, String.format(" > Entries: pvp, explosion, redstone", label));
             }
         }
 

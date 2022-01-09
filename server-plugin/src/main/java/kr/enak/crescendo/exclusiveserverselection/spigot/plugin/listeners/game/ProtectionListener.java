@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -53,5 +54,15 @@ public class ProtectionListener implements Listener {
 
         event.setCancelled(true);
         event.getDamager().spigot().sendMessage(TextComponent.fromLegacyText("서버가 pvp 비활성화 상태입니다."));
+    }
+
+    @EventHandler
+    public void blockRedStoneUpdate(BlockRedstoneEvent event) {
+        if (this.configManager.getServerConfig().isRedstoneAllowed())
+            return;
+        else if (event.getNewCurrent() == 0)
+            return;
+
+        event.setNewCurrent(0);
     }
 }

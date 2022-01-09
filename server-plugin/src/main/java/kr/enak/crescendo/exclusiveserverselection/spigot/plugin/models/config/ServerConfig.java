@@ -15,6 +15,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
     private @NotNull ServerType serverType = ServerType.LOBBY;
     private @NotNull boolean isPvpAllowed = true;
     private @NotNull boolean isExplosionAllowed = true;
+    private @NotNull boolean isRedstoneAllowed = true;
 
     public ServerConfig(Map<String, Object> map) {
         this.deserialize(map);
@@ -45,7 +46,8 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
         this.discordConfig = (DiscordConfig) map.getOrDefault("discordConfig", new DiscordConfig());
         this.serverType = ServerType.valueOf((String) map.getOrDefault("serverType", ServerType.LOBBY.name()));
         this.isPvpAllowed = (Boolean) map.getOrDefault("isPvpAllowed", true);
-        this.isExplosionAllowed = (Boolean) map.getOrDefault("isExplosionAllowed", true);
+        this.isExplosionAllowed = (Boolean) map.getOrDefault("isExplosionAllowed", false);
+        this.isRedstoneAllowed = (Boolean) map.getOrDefault("isRedstoneAllowed", false);
 
         this.wildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
         this.mildPortalCoordinates = new Pair<>(BlockVector3.at(0, 0, 0), BlockVector3.at(0, 0, 0));
@@ -77,6 +79,7 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
         map.put("serverType", this.serverType.name());
         map.put("isPvpAllowed", this.isPvpAllowed);
         map.put("isExplosionAllowed", this.isExplosionAllowed);
+        map.put("isRedstoneAllowed", this.isRedstoneAllowed);
         map.put("discordConfig", this.discordConfig);
         map.put("wildPortalXYZ", Arrays.asList(
                 serializeBlockVector3(wildPortalCoordinates.getKey()),
@@ -128,5 +131,13 @@ public class ServerConfig extends kr.enak.plugintemplate.data.config.ServerConfi
 
     public void setProtectExplosion(boolean protectExplosion) {
         isExplosionAllowed = protectExplosion;
+    }
+
+    public boolean isRedstoneAllowed() {
+        return isRedstoneAllowed;
+    }
+
+    public void setRedstoneAllowed(boolean redstoneAllowed) {
+        isRedstoneAllowed = redstoneAllowed;
     }
 }
