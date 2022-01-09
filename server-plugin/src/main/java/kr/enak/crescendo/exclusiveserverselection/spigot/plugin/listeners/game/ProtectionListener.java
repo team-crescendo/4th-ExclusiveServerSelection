@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -65,4 +66,35 @@ public class ProtectionListener implements Listener {
 
         event.setNewCurrent(0);
     }
+
+    @EventHandler
+    public void preventPistonExtend(BlockPistonExtendEvent event) {
+        if (this.configManager.getServerConfig().isRedstoneAllowed())
+            return;
+
+        event.setCancelled(true);
+    }
+
+    // Disable due to expected performance issue
+//    @EventHandler
+//    public void block(BlockPhysicsEvent event) {
+//        if (
+//                this.configManager.getServerConfig().isRedstoneAllowed() && (
+//                    isRedStoneBlock(event.getBlock().getType())
+//                    || isRedStoneBlock(event.getSourceBlock().getType())
+//                )
+//        ) {
+//            event.setCancelled(true);
+//        }
+//    }
+//
+//    public static boolean isRedStoneBlock(Material material) {
+//        return (
+//                material == Material.REDSTONE
+//                || material == Material.REDSTONE_BLOCK
+//                || material == Material.REDSTONE_TORCH
+//                || material == Material.REDSTONE_WALL_TORCH
+//                || material == Material.REDSTONE_WIRE
+//        );
+//    }
 }
