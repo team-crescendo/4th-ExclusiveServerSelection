@@ -46,7 +46,7 @@ public class CommandSelection extends Command {
         ProxiedPlayer targetPlayer;
         PlayerData playerData;
         if (args.length >= 3 && args[1].equalsIgnoreCase("to")) {
-            if (!sender.getName().equalsIgnoreCase("CONSOLE") && sender.hasPermission("bungeecord.command.selection.admin")) {
+            if (!sender.getName().equalsIgnoreCase("CONSOLE") && !sender.hasPermission("bungeecord.command.selection.admin")) {
                 sender.sendMessage("권한 없음");
                 return;
             }
