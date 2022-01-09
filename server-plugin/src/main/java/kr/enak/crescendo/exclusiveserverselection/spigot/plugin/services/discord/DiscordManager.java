@@ -75,7 +75,7 @@ public class DiscordManager extends DefaultResourceManager {
             return;
         }
 
-        setStatus(ManagerStatus.INITIALIZED);
+        super.onInit();
     }
 
     @Override
@@ -90,6 +90,8 @@ public class DiscordManager extends DefaultResourceManager {
 
     @Override
     public void onStop() {
+        this.jda.shutdownNow();
+
         super.onStop();
     }
 
