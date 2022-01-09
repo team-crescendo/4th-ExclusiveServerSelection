@@ -9,6 +9,7 @@ import kr.enak.plugintemplate.models.DefaultResourceManager;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -40,8 +41,10 @@ public class AuthCodeManager extends DefaultResourceManager {
     }
 
     public String enqueueCode(UUID uuid) {
-        if (getAuthCodeMap().containsValue(uuid))
-            return getAuthCodeMap().entrySet().stream().filter(set -> set.getValue() == uuid).findFirst().get().getKey();
+        if (getAuthCodeMap().containsValue(uuid)) {
+            Optional<Map.Entry<String, UUID>> optional = getAuthCodeMap().entrySet().stream().filter(set -> set.getValue() == uuid).findFirst();
+            if (optional.isPresent()) return optional.get().getKey();
+        }
         return enqueueCode(generateAuthCode(configManager.getServerConfig().getDiscordConfig().getAuthCodeLength()), uuid);
     }
 
