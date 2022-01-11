@@ -3,6 +3,7 @@ package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners.game;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.ServerConfigManager;
 import kr.enak.plugintemplate.TemplatePlugin;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -57,14 +58,14 @@ public class ProtectionListener implements Listener {
         event.getDamager().spigot().sendMessage(TextComponent.fromLegacyText("서버가 pvp 비활성화 상태입니다."));
     }
 
-    @EventHandler
-    public void blockRedStoneUpdate(BlockRedstoneEvent event) {
-        if (this.configManager.getServerConfig().isRedstoneAllowed())
-            return;
-        else if (event.getNewCurrent() == 0)
-            return;
-
-        event.setNewCurrent(0);
+    public static boolean isRedStoneBlock(Material material) {
+        return (
+                material == Material.REDSTONE
+                        || material == Material.REDSTONE_BLOCK
+                        || material == Material.REDSTONE_TORCH
+                        || material == Material.REDSTONE_WALL_TORCH
+                        || material == Material.REDSTONE_WIRE
+        );
     }
 
     @EventHandler
@@ -87,14 +88,16 @@ public class ProtectionListener implements Listener {
 //            event.setCancelled(true);
 //        }
 //    }
-//
-//    public static boolean isRedStoneBlock(Material material) {
-//        return (
-//                material == Material.REDSTONE
-//                || material == Material.REDSTONE_BLOCK
-//                || material == Material.REDSTONE_TORCH
-//                || material == Material.REDSTONE_WALL_TORCH
-//                || material == Material.REDSTONE_WIRE
-//        );
-//    }
+
+    @EventHandler
+    public void blockRedStoneUpdate(BlockRedstoneEvent event) {
+        if (this.configManager.getServerConfig().isRedstoneAllowed())
+            return;
+        else if (event.getNewCurrent() == 0)
+            return;
+        else if (!isRedStoneBlock(event.getBlock().getType()))
+            return;
+
+        event.setNewCurrent(0);
+    }
 }
