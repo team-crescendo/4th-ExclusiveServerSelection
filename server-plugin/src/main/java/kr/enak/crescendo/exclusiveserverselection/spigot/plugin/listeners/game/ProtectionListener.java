@@ -1,10 +1,13 @@
 package kr.enak.crescendo.exclusiveserverselection.spigot.plugin.listeners.game;
 
+import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.ExSSSpigotPlugin;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.config.ServerConfigManager;
 import kr.enak.plugintemplate.TemplatePlugin;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
@@ -19,6 +22,7 @@ public class ProtectionListener implements Listener {
 
     public ProtectionListener() {
         this.configManager = TemplatePlugin.getResourceManager(ServerConfigManager.class);
+        ExSSSpigotPlugin.getInstance().getLogger().info("ProtectionListener initialized");
     }
 
     @EventHandler
@@ -46,16 +50,12 @@ public class ProtectionListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler
-    public void damageByPlayer(EntityDamageByEntityEvent event) {
-        if (this.configManager.getServerConfig().isPvpAllowed())
-            return;
-        else if (event.getEntity().getType() != EntityType.PLAYER
-                || event.getDamager().getType() != EntityType.PLAYER) return;
-        else if (event.getDamager().isOp()) return;
-
-        event.setCancelled(true);
-        event.getDamager().spigot().sendMessage(TextComponent.fromLegacyText("서버가 pvp 비활성화 상태입니다."));
+    public static boolean isShotAllowed(Projectile projectile) {
+//        Bukkit.broadcastMessage(String.format("Type: %s / Thrower: %s / isOp: %s", projectile.getName(), projectile.getShooter(), ((Entity) projectile.getShooter()).isOp()));
+        return (
+                !(projectile.getShooter() instanceof Player)
+                        || ((Player) projectile.getShooter()).isOp()
+        );
     }
 
     public static boolean isRedStoneBlock(Material material) {
@@ -99,5 +99,45 @@ public class ProtectionListener implements Listener {
             return;
 
         event.setNewCurrent(0);
+    }
+
+    @EventHandler
+    public void damageByPlayer(EntityDamageByEntityEvent event) {
+        if (this.configManager.getServerConfig().isPvpAllowed()) {
+//            Bukkit.broadcastMessage("PVP allowed");
+            return;
+        } else if (event.getEntity().getType() != EntityType.PLAYER) return;
+        else if (event.getDamager().isOp()) {
+//            Bukkit.broadcastMessage("OP allowed");
+            return;
+        }
+
+        if (event.getDamager().getType() != EntityType.PLAYER) {
+            switch (event.getCause()) {
+                // Arrow, SpectralArrow, Trident, Snowball
+                case PROJECTILE: {
+                    switch (event.getDamager().getType()) {
+                        case ARROW:
+                        case SPECTRAL_ARROW:
+                        case TRIDENT:
+                        case SNOWBALL:
+                            if (isShotAllowed((Projectile) event.getDamager())) {
+//                                Bukkit.broadcastMessage("Allowed shooting");
+                                return;
+                            }
+                            break;
+                        default:
+                            return;
+                    }
+                }
+
+                default:
+                    return;
+            }
+        }
+
+//        Bukkit.broadcastMessage("Cancelled");
+        event.setCancelled(true);
+        event.getDamager().spigot().sendMessage(TextComponent.fromLegacyText("서버가 pvp 비활성화 상태입니다."));
     }
 }
