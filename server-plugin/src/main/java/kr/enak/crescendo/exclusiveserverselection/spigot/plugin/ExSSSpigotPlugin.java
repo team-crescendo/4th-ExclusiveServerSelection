@@ -11,9 +11,11 @@ import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.models.network.N
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.services.discord.AuthCodeManager;
 import kr.enak.crescendo.exclusiveserverselection.spigot.plugin.services.discord.DiscordManager;
 import kr.enak.plugintemplate.TemplatePlugin;
+import kr.entree.spigradle.annotations.SpigotPlugin;
 
 import java.util.Arrays;
 
+@SpigotPlugin
 public class ExSSSpigotPlugin extends TemplatePlugin {
     private static ExSSSpigotPlugin instance;
 
